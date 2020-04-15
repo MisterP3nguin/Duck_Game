@@ -12,45 +12,68 @@ namespace Duck_Game.UI
     public class UIContainer
     {
         public Rectangle boundingBox;
-        List<UIElement> elements;
-        public UIContainer(UILayout Layout,Rectangle rectangle, List<UIElement> elements)
+        public List<UIElement> elements;
+        
+        public UIContainer(UILayout Layout,Rectangle boundingBox, List<UIElement> elements)
         {            
             this.elements = new List<UIElement>();
-            this.boundingBox = rectangle;
+            this.boundingBox = boundingBox;
             //Evenly lay out all elements in the container.
-            if(Layout == UILayout.EvenlySpaced)
-            {                       
+            if (Layout == UILayout.EvenlySpaced)
+            {
                 //the container will be longer in height.
-                if (boundingBox.Height >= boundingBox.Width)
+                if (this.boundingBox.Height >= this.boundingBox.Width)
                 {
-                    int offset = boundingBox.Height / elements.Count;
+                    int offset = this.boundingBox.Height / elements.Count;
                     //draw out a diagram of what this look like to understand why the first element is
                     //divided by half 
-                    elements[0].position.Y = offset / 2;
-                    elements[0].position.X = boundingBox.Width / 2;
-                    int counter = offset / 2;
+                    elements[0].origin.Y = this.boundingBox.Y + offset / 2;
+                    elements[0].origin.X = boundingBox.Center.X;
                     if (elements.Count > 1)
                     {
+                        int counter = offset / 2;
                         for (int i = 1; i < elements.Count; i++)
                         {
                             counter += offset;
-                            elements[i].position.Y = counter;
-                            elements[i].position.X = boundingBox.Width / 2;
+                            elements[i].origin.Y = counter;
+                            elements[i].origin.X = boundingBox.Center.X;
                         }
                     }
 
                 }
-                else //The container is longer in width TODO:
-                {
-
-                }
-            }
+            }            
             this.elements = elements;
         }
         public void Update(GameTime gameTime)
         {
+            foreach (UIElement element in elements)
+            {
+                element.Update(gameTime);                
+            }
+        }
+        public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
+        {
+            foreach (UIElement element in elements)
+            {
+                element.Draw(gameTime, spriteBatch);
+            }
+        }
+        public void ProcessOnClickEvents(Input input)
+        {
+            foreach (UIElement element in elements)
+            {
+                if (element is Button)
+                {
+                    if (element.collisionRectangle.Contains(input.mouse.Position))
+                    {
+                        element.OnMouseClick(input);
+                    }
+                }
+            }
+        }
+        public void ProcessOnReleaseEvents(Input input)
+        {
 
         }
-
     }
 }

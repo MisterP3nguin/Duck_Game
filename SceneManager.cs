@@ -14,12 +14,13 @@ namespace Duck_Game
     public class SceneManager
     {
         List<Scene> scenes = new List<Scene>();
-        Scene currentScene;        
+        Scene currentScene;
+        Input input;
         public SceneManager(Input input)
         {
-            //This will load the main menu , unless specified otherwise.
-            Scene currentScene = new Scene("main_menu");
-            currentScene.uiManager = UIGenerator.CreateMainMenu(input);
+            this.input = input;
+            currentScene = new Scene("main_menu");
+            currentScene.uiManager = UIGenerator.CreateMainMenu(input);            
         }
         public void UpdateCurrentScene(GameTime gameTime)
         {

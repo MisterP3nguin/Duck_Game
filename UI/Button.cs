@@ -12,21 +12,16 @@ namespace Duck_Game.UI
     {
         public InputEvent OnClick;
         public InputEvent OnRelease;
-        public InputEvent OnMouseClick;
-        public Button(string textureName, Input input) : base(textureName)
-        {   
-            if (OnClick != null)
+        public Button(string textureName) : base(textureName)
+        {
+            OnClick += (input) =>
             {
-                input.OnClick += this.OnClick;
-            }
-            if (OnRelease != null)
-            {
-                input.OnClick += this.OnRelease;
-            }
-            if (OnClick != null)
-            {
-                input.OnClick += this.OnMouseClick;
-            }
+                Console.WriteLine("This button does nothing!");
+            };
+        }
+        public override void OnMouseClick(Input input)
+        {
+            OnClick(input);
         }
     }
 }

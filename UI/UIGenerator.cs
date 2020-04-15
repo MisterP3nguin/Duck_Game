@@ -10,36 +10,39 @@ namespace Duck_Game.UI
 {
     public static class UIGenerator
     {
+
         public static UIManager CreateMainMenu(Input input)
         {
             UIManager uiManager = new UIManager();
-            UIContainer MainMenu = new UIContainer(UILayout.EvenlySpaced,new Rectangle (),
+            UIContainer MainMenu = new UIContainer(UILayout.EvenlySpaced,new Rectangle (Game1.windowWidth/2-50,0,100,Game1.windowHeight),
                 new List<UIElement>()
                 {                    
-                    new Button("duck",input)
+                    new Button("play")
                     {
                         OnClick = (x) =>
                         {
-                            Console.WriteLine("This button has been clicked!");
+                            Console.WriteLine("Play");
                         }
                     },
-                    new Button("duck",input)
+                    new Button("editor")
                     {
                         OnClick = (x) =>
                         {
-                            Console.WriteLine("This button has been clicked!");
+                            Console.WriteLine("Editor");
                         }
                     },
-                    new Button("duck",input)
+                    new Button("exit")
                     {
                         OnClick = (x) =>
                         {
-                            Console.WriteLine("This button has been clicked!");
+                            Console.WriteLine("Exit");
                         }
                     }
                 });
-            uiManager.uiContainers.Add(MainMenu);
 
+            input.OnClick += uiManager.ProcessOnClickEvents;
+            input.OnRelease += uiManager.ProcessOnReleaseEvents;
+            uiManager.uiContainers.Add(MainMenu);
             return uiManager;
         }
     }

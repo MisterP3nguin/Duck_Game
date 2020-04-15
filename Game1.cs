@@ -12,6 +12,9 @@ namespace Duck_Game
     public class Game1 : Game
     {
         public static Dictionary<string, Texture2D> textureAtlas = new Dictionary<string, Texture2D>();
+        public static int windowWidth;
+        public static int windowHeight;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SceneManager sceneManager;
@@ -27,20 +30,26 @@ namespace Duck_Game
 
         protected override void Initialize()
         {
-            sceneManager = new SceneManager(input);
+            windowHeight = Window.ClientBounds.Height;
+            windowWidth = Window.ClientBounds.Width;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            textureAtlas.Add("duck", Content.Load<Texture2D>("duck"));
+            textureAtlas.Add("play", Content.Load<Texture2D>("play"));
+            textureAtlas.Add("editor", Content.Load<Texture2D>("editor"));
+            textureAtlas.Add("exit", Content.Load<Texture2D>("exit"));
 
-
+            sceneManager = new SceneManager(input);            
         }
 
         protected override void Update(GameTime gameTime)
         {
+            windowHeight = Window.ClientBounds.Height;
+            windowWidth = Window.ClientBounds.Width;
+            input.UpdateInput();
 
             sceneManager.UpdateCurrentScene(gameTime);
 

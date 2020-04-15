@@ -21,7 +21,7 @@ namespace Duck_Game
         {
             keyboard = Keyboard.GetState();
             mouse = Mouse.GetState();
-            //Make sure onClick event fires once when the mouse button is clicked (not when button is held down).
+            //Make sure OnClick event fires once when the mouse button is clicked (not when button is held down).
             if (mouse.LeftButton == ButtonState.Pressed && !isLeftMouseButtonPressed)
             {
                 isLeftMouseButtonReleased = false;

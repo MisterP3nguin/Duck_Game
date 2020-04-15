@@ -18,17 +18,25 @@ namespace Duck_Game
         public UIManager uiManager = new UIManager();
         public Scene(string sceneName)
         {
-            Load(sceneName);            
+            Load(sceneName);
         }
         public void Update(GameTime gameTime)
         {
             uiManager.Update(gameTime);
+            foreach(Sprite sprite in sprites)
+            {
+                sprite.Update(gameTime);
+            }
         }
         public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
             uiManager.Draw(gameTime,spriteBatch);
+            foreach (Sprite sprite in sprites)
+            {
+                sprite.Draw(gameTime, spriteBatch);
+            }
         }
-        public void Load(string state = "latest")
+        public void Load(string sceneName = "latest")
         {
 
         }

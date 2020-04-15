@@ -15,5 +15,9 @@ namespace Duck_Game.UI
         {
 
         }
+        public virtual void OnMouseClick(Input input)
+        {
+            
+        }
     }
 }
