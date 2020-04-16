@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Duck_Game.UI
 {
-    public class UIManager
+    public class UIManager : IDisposable
     {
         public List<UIContainer> uiContainers = new List<UIContainer>();
         public void Update(GameTime gameTime)
@@ -37,6 +37,20 @@ namespace Duck_Game.UI
             foreach (UIContainer uiContainer in uiContainers)
             {
                 uiContainer.ProcessOnReleaseEvents(input);                
+            }
+        }
+        public void ResizeUI()
+        {
+            foreach (UIContainer uiContainer in uiContainers)
+            {
+                uiContainer.RepositionUI();
+            }
+        }
+        public void Dispose()
+        {
+            foreach(UIContainer container in uiContainers)
+            {
+                container.Dispose();
             }
         }
     }

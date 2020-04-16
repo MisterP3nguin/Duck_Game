@@ -11,31 +11,33 @@ using Duck_Game.UI;
 
 namespace Duck_Game
 {
-    public class SceneManager
+    public static class SceneManager
     {
-        List<Scene> scenes = new List<Scene>();
-        Scene currentScene;
-        Input input;
-        public SceneManager(Input input)
+        public static Input input;
+        public static List<Scene> scenes = new List<Scene>();
+        public static Scene currentScene;
+        public static void Init()
         {
-            this.input = input;
-            currentScene = new Scene("main_menu");
-            currentScene.uiManager = UIGenerator.CreateMainMenu(input);            
+            input = new Input();
+            currentScene = new Scene("main_menu",input);                        
         }
-        public void UpdateCurrentScene(GameTime gameTime)
+        public static void UpdateCurrentScene(GameTime gameTime)
         {
+            input.UpdateInput();
             currentScene.Update(gameTime);
         }
-        public void DrawCurrentScene(GameTime gameTime,SpriteBatch spriteBatch)
+        public static void DrawCurrentScene(GameTime gameTime,SpriteBatch spriteBatch)
         {
             currentScene.Draw(gameTime, spriteBatch);
         }
-        public void SwitchScene(string sceneName)
+        public static void SwitchScene(string sceneName)
         {
-            currentScene.Save();
-            currentScene = new Scene(sceneName);
+            currentScene.Save();            
+            currentScene.Dispose();
+            input = new Input();
+            currentScene = new Scene(sceneName,input);
         }
-        public void ResetScene()
+        public static void ResetScene()
         {
 
         }
