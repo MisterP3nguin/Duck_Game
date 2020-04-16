@@ -51,7 +51,7 @@ namespace Duck_Game.UI
             UIManager uiManager = new UIManager();
 
             UIContainer pauseMenu = new StackedBox(
-                new Rectangle(Game1.windowWidth / 2 - 50, 0, 100, (int)(Game1.windowHeight * 0.40)),
+                new Rectangle(Game1.windowWidth / 2 - 50, (int)(Game1.windowHeight * (0.25)), 100, (int)(Game1.windowHeight * 0.5)),
                 new List<UIElement>()
                 {
                     new Button("exit")
