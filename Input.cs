@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 namespace Duck_Game
 {
     public delegate void InputEvent(Input Input);
-    public class Input
+    public class Input : IDisposable
     {
         public event InputEvent OnClick;
         public event InputEvent OnRelease;
@@ -17,6 +17,10 @@ namespace Duck_Game
         bool isRightMouseButtonPressed = false;
         bool isLeftMouseButtonReleased = true;
         bool isRightMouseButtonReleased = true;
+        public Input()
+        {
+
+        }
         public void UpdateInput()
         {
             keyboard = Keyboard.GetState();
@@ -26,7 +30,7 @@ namespace Duck_Game
             {
                 isLeftMouseButtonReleased = false;
                 isLeftMouseButtonPressed = true;                
-                OnClick(this);
+                OnClick(this);                
             }
             else if (mouse.LeftButton == ButtonState.Released && !isLeftMouseButtonReleased)
             {
@@ -47,6 +51,10 @@ namespace Duck_Game
                 OnRelease(this);
             }
         }
-        
+        public void Dispose()
+        {
+            OnClick -= OnClick;
+            OnRelease -= OnRelease;
+        }        
     }
 }

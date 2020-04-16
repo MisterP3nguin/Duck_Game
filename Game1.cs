@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Comora;
 
 namespace Duck_Game
 {
@@ -15,21 +16,24 @@ namespace Duck_Game
         public static int windowWidth;
         public static int windowHeight;
 
+        Camera camera;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SceneManager sceneManager;
-        Input input;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            input = new Input();
+            Window.AllowUserResizing = true;
+            
         }
 
         protected override void Initialize()
         {
+            this.camera = new Camera(graphics.GraphicsDevice);
+            this.camera.LoadContent();
+            this.camera.Position = new Vector2(camera.Width / 2, camera.Height / 2);
             windowHeight = Window.ClientBounds.Height;
             windowWidth = Window.ClientBounds.Width;
             base.Initialize();
@@ -41,26 +45,33 @@ namespace Duck_Game
             textureAtlas.Add("play", Content.Load<Texture2D>("play"));
             textureAtlas.Add("editor", Content.Load<Texture2D>("editor"));
             textureAtlas.Add("exit", Content.Load<Texture2D>("exit"));
+            textureAtlas.Add("empty", Content.Load<Texture2D>("empty"));
 
-            sceneManager = new SceneManager(input);            
+            SceneManager.Init();            
         }
 
         protected override void Update(GameTime gameTime)
         {
+            this.camera.Update(gameTime);
+            camera.Debug.IsVisible = Keyboard.GetState().IsKeyDown(Keys.F1);
+            if (SceneManager.input.keyboard.IsKeyDown(Keys.Q))
+            {
+                camera.Zoom = 2;
+            }
+
             windowHeight = Window.ClientBounds.Height;
             windowWidth = Window.ClientBounds.Width;
-            input.UpdateInput();
-
-            sceneManager.UpdateCurrentScene(gameTime);
+            SceneManager.UpdateCurrentScene(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            this.spriteBatch.Draw(this.camera.Debug);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-            sceneManager.DrawCurrentScene(gameTime,spriteBatch);
+            spriteBatch.Begin(this.camera);
+            SceneManager.DrawCurrentScene(gameTime,spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

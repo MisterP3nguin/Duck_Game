@@ -9,43 +9,26 @@ using Duck_Game.Entities;
 
 namespace Duck_Game.UI
 {
-    public class UIContainer
+    public abstract class UIContainer : IDisposable
     {
         public Rectangle boundingBox;
         public List<UIElement> elements;
+        public List<UIContainer> uiContainers = new List<UIContainer>();
+        Texture2D texture = null;
+        public Color color = Color.White;
         
-        public UIContainer(UILayout Layout,Rectangle boundingBox, List<UIElement> elements)
-        {            
+        public UIContainer(Rectangle boundingBox, List<UIElement> elements)
+        {
+            Game1.textureAtlas.TryGetValue("empty",out texture);
             this.elements = new List<UIElement>();
-            this.boundingBox = boundingBox;
-            //Evenly lay out all elements in the container.
-            if (Layout == UILayout.EvenlySpaced)
-            {
-                //the container will be longer in height.
-                if (this.boundingBox.Height >= this.boundingBox.Width)
-                {
-                    int offset = this.boundingBox.Height / elements.Count;
-                    //draw out a diagram of what this look like to understand why the first element is
-                    //divided by half 
-                    elements[0].origin.Y = this.boundingBox.Y + offset / 2;
-                    elements[0].origin.X = boundingBox.Center.X;
-                    if (elements.Count > 1)
-                    {
-                        int counter = offset / 2;
-                        for (int i = 1; i < elements.Count; i++)
-                        {
-                            counter += offset;
-                            elements[i].origin.Y = counter;
-                            elements[i].origin.X = boundingBox.Center.X;
-                        }
-                    }
-
-                }
-            }            
-            this.elements = elements;
+            this.boundingBox = boundingBox;            
         }
         public void Update(GameTime gameTime)
         {
+            foreach (UIContainer container in uiContainers)
+            {
+                container.Update(gameTime);
+            }
             foreach (UIElement element in elements)
             {
                 element.Update(gameTime);                
@@ -53,6 +36,11 @@ namespace Duck_Game.UI
         }
         public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(texture, boundingBox, color);
+            foreach (UIContainer container in uiContainers)
+            {
+                container.Draw(gameTime, spriteBatch);
+            }
             foreach (UIElement element in elements)
             {
                 element.Draw(gameTime, spriteBatch);
@@ -74,6 +62,17 @@ namespace Duck_Game.UI
         public void ProcessOnReleaseEvents(Input input)
         {
 
+        }
+        public void Dispose()
+        {
+            foreach (UIContainer container in uiContainers)
+            {
+                container.Dispose();
+            }
+            foreach (UIElement element in elements)
+            {
+                element.Dispose();
+            }
         }
     }
 }

@@ -12,13 +12,13 @@ using Duck_Game.Entities;
 
 namespace Duck_Game
 {
-    public class Scene
+    public class Scene : IDisposable
     {
         public List<Sprite> sprites = new List<Sprite>();
-        public UIManager uiManager = new UIManager();
-        public Scene(string sceneName)
+        public UIManager uiManager;
+        public Scene(string sceneName,Input input)
         {
-            Load(sceneName);
+            Load(sceneName,input);
         }
         public void Update(GameTime gameTime)
         {
@@ -36,9 +36,19 @@ namespace Duck_Game
                 sprite.Draw(gameTime, spriteBatch);
             }
         }
-        public void Load(string sceneName = "latest")
+        public void Load(string sceneName ,Input input)
         {
-
+            switch(sceneName)
+            {
+                case "main_menu":
+                    uiManager = UIGenerator.CreateMainMenu(input);
+                    break;
+                case "game":
+                    uiManager = UIGenerator.CreateGameMenu(input);
+                    break;
+                default:
+                    throw new Exception("Specified Scene does not exist. Add new case to Scene.Load");
+            }
         }
         public void Save()
         {
@@ -73,6 +83,10 @@ namespace Duck_Game
                     }
                 }
             }
+        }
+        public void Dispose()
+        {
+            uiManager.Dispose();
         }
     }
 }

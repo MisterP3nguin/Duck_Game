@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Duck_Game.UI
 {
-    public class Button : UIElement
+    public class Button : UIElement , IDisposable
     {
         public InputEvent OnClick;
         public InputEvent OnRelease;
@@ -22,6 +22,14 @@ namespace Duck_Game.UI
         public override void OnMouseClick(Input input)
         {
             OnClick(input);
+        }
+        public override void OnMouseRelease(Input input)
+        {
+            OnClick(input);
+        }
+        public override void Dispose ()
+        {
+            OnClick -= OnClick;
         }
     }
 }
