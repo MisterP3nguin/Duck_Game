@@ -14,8 +14,8 @@ namespace Duck_Game
     public static class SceneManager
     {
         public static Input input;
-        static List<Scene> scenes = new List<Scene>();
-        static Scene currentScene;
+        public static List<Scene> scenes = new List<Scene>();
+        public static Scene currentScene;
         public static void Init()
         {
             input = new Input();

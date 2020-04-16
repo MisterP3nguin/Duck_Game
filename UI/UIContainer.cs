@@ -23,7 +23,7 @@ namespace Duck_Game.UI
             this.elements = new List<UIElement>();
             this.boundingBox = boundingBox;            
         }
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             foreach (UIContainer container in uiContainers)
             {
@@ -60,6 +60,10 @@ namespace Duck_Game.UI
             }
         }
         public void ProcessOnReleaseEvents(Input input)
+        {
+
+        }
+        public virtual void RepositionUI()
         {
 
         }

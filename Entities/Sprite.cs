@@ -43,7 +43,7 @@ namespace Duck_Game.Entities
             collisionRectangle.Y = (int)origin.Y - collisionRectangle.Height/2;
         }        
         public virtual void Draw(GameTime gameTime,SpriteBatch spriteBatch)
-        {
+        {            
             spriteBatch.Draw(texture,collisionRectangle, sourceRectangle, color, rotation, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
     }

@@ -39,6 +39,13 @@ namespace Duck_Game.UI
                 uiContainer.ProcessOnReleaseEvents(input);                
             }
         }
+        public void ResizeUI()
+        {
+            foreach (UIContainer uiContainer in uiContainers)
+            {
+                uiContainer.RepositionUI();
+            }
+        }
         public void Dispose()
         {
             foreach(UIContainer container in uiContainers)
