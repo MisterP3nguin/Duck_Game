@@ -10,4 +10,8 @@ namespace Duck_Game
 {
     public enum UILayout{EvenlySpaced}
     public delegate void EventHandler(object s, EventArgs e);
+    interface IResizeable
+    {
+        public void Resize(int x, int y);
+    }
 }

@@ -13,17 +13,17 @@ namespace Duck_Game
 {
     public static class SceneManager
     {
-        public static Input input;
+        public static InputListener InputListener;
         public static List<Scene> scenes = new List<Scene>();
         public static Scene currentScene;
         public static void Init()
         {
-            input = new Input();
-            currentScene = new Scene("main_menu",input);                        
+            InputListener = new InputListener();
+            currentScene = new Scene("main_menu",InputListener);                        
         }
         public static void UpdateCurrentScene(GameTime gameTime)
         {
-            input.UpdateInput();
+            InputListener.UpdateInput();
             currentScene.Update(gameTime);
         }
         public static void DrawCurrentScene(GameTime gameTime,SpriteBatch spriteBatch)
@@ -34,8 +34,8 @@ namespace Duck_Game
         {
             currentScene.Save();            
             currentScene.Dispose();
-            input = new Input();
-            currentScene = new Scene(sceneName,input);
+            InputListener = new InputListener();
+            currentScene = new Scene(sceneName,InputListener);
         }
         public static void ResetScene()
         {

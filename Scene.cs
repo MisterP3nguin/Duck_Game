@@ -16,9 +16,9 @@ namespace Duck_Game
     {
         public List<Sprite> sprites = new List<Sprite>();
         public UIManager uiManager;
-        public Scene(string sceneName,Input input)
+        public Scene(string sceneName,InputListener InputListener)
         {
-            Load(sceneName,input);
+            Load(sceneName,InputListener);
         }
         public void Update(GameTime gameTime)
         {
@@ -36,7 +36,7 @@ namespace Duck_Game
                 sprite.Draw(gameTime, spriteBatch);
             }
         }
-        public void Load(string sceneName ,Input input)
+        public void Load(string sceneName ,InputListener input)
         {
             switch(sceneName)
             {
@@ -60,28 +60,22 @@ namespace Duck_Game
             {
                 if ((File.GetAttributes(fileToCompress.FullName) & FileAttributes.Hidden) != FileAttributes.Hidden & fileToCompress.Extension != ".gz")
                 {
-                    using (FileStream compressedFileStream = File.Create(fileToCompress.FullName + ".gz"))
-                    using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
-                    {
-                        originalFileStream.CopyTo(compressionStream);
-                    }
+                    using FileStream compressedFileStream = File.Create(fileToCompress.FullName + ".gz");
+                    using GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress);
+                    originalFileStream.CopyTo(compressionStream);
                 }
             }
         }
         void Decompress(FileInfo fileToDecompress)
         {
-            using (FileStream originalFileStream = fileToDecompress.OpenRead())
+            using FileStream originalFileStream = fileToDecompress.OpenRead();
             {
                 string currentFileName = fileToDecompress.FullName;
                 string newFileName = currentFileName.Remove(currentFileName.Length - fileToDecompress.Extension.Length);
 
-                using (FileStream decompressedFileStream = File.Create(newFileName))
-                {
-                    using (GZipStream decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress))
-                    {
+                using FileStream decompressedFileStream = File.Create(newFileName);
+                    using GZipStream decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress);
                         decompressionStream.CopyTo(decompressedFileStream);
-                    }
-                }
             }
         }
         public void Dispose()

@@ -25,18 +25,18 @@ namespace Duck_Game.UI
                 uiContainer.Draw(gameTime,spriteBatch);
             }
         }       
-        public void ProcessOnClickEvents(Input input)
+        public void ProcessOnClickEvents(object sender, EventArgs e)
         {
             foreach (UIContainer uiContainer in uiContainers)
             {
-                uiContainer.ProcessOnClickEvents(input);
+                uiContainer.ProcessOnClickEvents(sender, e);
             }
         }
-        public void ProcessOnReleaseEvents(Input input)
+        public void ProcessOnReleaseEvents(object sender, EventArgs e)
         {
             foreach (UIContainer uiContainer in uiContainers)
             {
-                uiContainer.ProcessOnReleaseEvents(input);                
+                uiContainer.ProcessOnReleaseEvents(sender, e);                
             }
         }
         public void ResizeUI()

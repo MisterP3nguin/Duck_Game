@@ -11,42 +11,48 @@ namespace Duck_Game.UI
     public static class UIGenerator
     {
 
-        public static UIManager CreateMainMenu(Input input)
+        public static UIManager CreateMainMenu(InputListener input)
         {
             UIManager uiManager = new UIManager();
-            UIContainer MainMenu = new StackedBox(new Rectangle (Game1.windowWidth/2-50,0,100,Game1.windowHeight),
+            UIContainer mainMenu = new StackedBox(new Rectangle (Game1.windowWidth/2-50,0,100,Game1.windowHeight),
                 new List<UIElement>()
                 {                    
                     new Button("play")
                     {
-                        OnClick = (x) =>
+                        OnClickHandler = (x, e) =>
                         {
                             SceneManager.SwitchScene("game");
                         }
                     },
                     new Button("editor")
                     {
-                        OnClick = (x) =>
+                        OnClickHandler = (x, e) =>
                         {
-                            Console.WriteLine("Editor");
+                            Console.WriteLine("Options");
                         }
                     },
                     new Button("exit")
                     {
-                        OnClick = (x) =>
+                        OnClickHandler = (sender, e) =>
                         {
-                            Console.WriteLine("Exit");
-                        }
+                            Game1.isRunning = false;
+                        }                        
                     }
                 });
-
-            uiManager.uiContainers.Add(MainMenu);
-            input.OnClick += uiManager.ProcessOnClickEvents;
-            input.OnRelease += uiManager.ProcessOnReleaseEvents;
+            //Add evenhandlers to UIelements as needed.
+            foreach (UIElement element in mainMenu.elements)
+            {
+                if (element is Button)
+                {
+                    input.OnClick += element.OnClick;
+                }
+            }
+            
+            uiManager.uiContainers.Add(mainMenu);
             return uiManager;
         }
 
-        public static UIManager CreateGameMenu(Input input)
+        public static UIManager CreateGameMenu(InputListener input)
         {
             UIManager uiManager = new UIManager();
 
@@ -54,27 +60,32 @@ namespace Duck_Game.UI
                 new Rectangle(Game1.windowWidth / 2 - 50, (int)(Game1.windowHeight * (0.25)), 100, (int)(Game1.windowHeight * 0.5)),
                 new List<UIElement>()
                 {
-                    new Button("exit")
+                    new Button("editor")
                     {
-                        OnClick = (x) =>
+                        OnClickHandler = (x, e) =>
                         {
-                            Console.WriteLine("Exit");
+                            Console.WriteLine("Options");
                         }
                     },
                     new Button("exit")
                     {
-                        OnClick = (x) =>
+                        OnClickHandler = (x, e) =>
                         {
-                            Console.WriteLine("Exit");
+                            Game1.isRunning = false;
                         }
                     },
                 })
                 {
                     color = Color.Black
                 };
+            foreach (UIElement element in pauseMenu.elements)
+            {
+                if (element is Button)
+                {
+                    input.OnClick += element.OnClick;
+                }
+            }
             uiManager.uiContainers.Add(pauseMenu);
-            input.OnClick += uiManager.ProcessOnClickEvents;
-            input.OnRelease += uiManager.ProcessOnReleaseEvents;
             return uiManager;
         }
     }

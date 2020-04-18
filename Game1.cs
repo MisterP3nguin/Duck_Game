@@ -19,9 +19,10 @@ namespace Duck_Game
         public static Vector2 scale = new Vector2(1,1);
         public static int windowWidth;
         public static int windowHeight;
+        public static bool isRunning = true;
 
         Camera camera;
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         public Game1()
@@ -58,6 +59,10 @@ namespace Duck_Game
         }
         protected override void Update(GameTime gameTime)
         {
+            if (!isRunning)
+            {
+                Exit();
+            }
             this.camera.Update(gameTime);
             camera.Debug.IsVisible = Keyboard.GetState().IsKeyDown(Keys.F1);
             //Temporary for testing

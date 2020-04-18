@@ -14,7 +14,7 @@ namespace Duck_Game.UI
         public Rectangle boundingBox;
         public List<UIElement> elements;
         public List<UIContainer> uiContainers = new List<UIContainer>();
-        Texture2D texture = null;
+        public Texture2D texture = null;
         public Color color = Color.White;
         
         public UIContainer(Rectangle boundingBox, List<UIElement> elements)
@@ -46,22 +46,20 @@ namespace Duck_Game.UI
                 element.Draw(gameTime, spriteBatch);
             }
         }
-        public void ProcessOnClickEvents(Input input)
+        public void ProcessOnClickEvents(object sender, EventArgs e)
         {
+            InputListener input = (InputListener)sender;   
             foreach (UIElement element in elements)
             {
                 if (element is Button)
                 {
-                    if (element.collisionRectangle.Contains(input.mouse.Position))
-                    {
-                        element.OnMouseClick(input);
-                    }
+                    input.OnClick += element.OnClick;
                 }
             }
         }
-        public void ProcessOnReleaseEvents(Input input)
+        public void ProcessOnReleaseEvents(object sender, EventArgs e)
         {
-
+            InputListener input = (InputListener)sender;
         }
         public virtual void RepositionUI()
         {

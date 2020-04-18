@@ -6,18 +6,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Duck_Game
 {
-    public delegate void InputEvent(Input Input);
-    public class Input : IDisposable
+    public class InputListener : IDisposable
     {
-        public event InputEvent OnClick;
-        public event InputEvent OnRelease;
+        public event EventHandler<EventArgs> OnClick;
+        public event EventHandler<EventArgs> OnRelease;
         public KeyboardState keyboard;
         public MouseState mouse;
         bool isLeftMouseButtonPressed = false;
         bool isRightMouseButtonPressed = false;
         bool isLeftMouseButtonReleased = true;
         bool isRightMouseButtonReleased = true;
-        public Input()
+        public InputListener()
         {
 
         }
@@ -30,31 +29,32 @@ namespace Duck_Game
             {
                 isLeftMouseButtonReleased = false;
                 isLeftMouseButtonPressed = true;                
-                OnClick(this);                
+                OnClick?.Invoke(this,new EventArgs());                
             }
             else if (mouse.LeftButton == ButtonState.Released && !isLeftMouseButtonReleased)
             {
                 isLeftMouseButtonReleased = true;
                 isLeftMouseButtonPressed = false;
+                OnRelease?.Invoke(this, new EventArgs());
             }
 
             if (mouse.RightButton == ButtonState.Pressed && !isRightMouseButtonPressed)
             {
                 isRightMouseButtonPressed = true;
                 isRightMouseButtonReleased = false;
-                OnClick(this);
+                OnClick?.Invoke(this, new EventArgs());
             }
             else if (mouse.RightButton == ButtonState.Released && !isRightMouseButtonReleased)
             {
                 isRightMouseButtonReleased = true;
                 isRightMouseButtonPressed = false;
-                OnRelease(this);
+                OnRelease?.Invoke(this, new EventArgs());
             }
         }
         public void Dispose()
         {
             OnClick -= OnClick;
             OnRelease -= OnRelease;
-        }        
+        }                
     }
 }

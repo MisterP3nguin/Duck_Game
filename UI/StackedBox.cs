@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Duck_Game.UI
 {
-    class StackedBox : UIContainer
+    class StackedBox : UIContainer, IResizeable
     {
         public StackedBox(Rectangle boundingBox, List<UIElement> elements) : base(boundingBox, elements)
         {
@@ -39,28 +39,9 @@ namespace Duck_Game.UI
 
             base.Update(gameTime);
         }
-    }
-}
-            //If the total height of all elements exceeds the height of the bounding box, resize all elements.
-            /*
-            int totalHeight = 0;
-            for (int i = 0; i < elements.Count; i++)
-            {
-                totalHeight += elements[i].collisionRectangle.Height;
-            }
-            //Vector2 scale = new Vector2(0.1f, 0.1f);
-            while (totalHeight > this.boundingBox.Height)
-            {
-                totalHeight = 0;
+        public void Resize(int x, int y)
+        {
 
-                for (int i = 0; i < elements.Count; i++)
-                {
-                    elements[i].collisionRectangle = new Rectangle(elements[i].collisionRectangle.X,
-                                                                    elements[i].collisionRectangle.Y,
-                                                                    (int)(elements[i].collisionRectangle.Width * 0.9),
-                                                                    (int)(elements[i].collisionRectangle.Width * 0.9));
-                    //elements[i].scale *= scale;
-                    totalHeight += elements[i].collisionRectangle.Height;
-                }
-            }
-            */
+        }
+    }
+}            
